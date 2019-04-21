@@ -12,6 +12,6 @@ class TodoApp extends StatelessWidget{
           title: new Text('Todo List'),
         ),
       )
-    )
+    );
   }
 }
