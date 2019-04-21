@@ -17,16 +17,11 @@ class TodoList extends StatefulWidget{
 }
 class TodoListState extends State<TodoList>{
   List<String> _todoItems = [];
-
   // This will be called each time the + button is pressed
-  void _addTodoItem(){
+  void _addTodoItem(String task){
     // Putting code inside "setState" tells the app that our state has changed, and
     // it will automatically re-render the list
-    setState(
-        () {
-          int index = _todoItems.length;
-          _todoItems.add('Item' + index.toString());
-        });
+    setState(() => _todoItems.add(task));
   }
 
   Widget _buildTodoList(){
@@ -52,9 +47,33 @@ class TodoListState extends State<TodoList>{
       ),
       body: _buildTodoList(),
       floatingActionButton: new FloatingActionButton(
-          onPressed: _addTodoItem,
+          onPressed: _pushAddToTodoScreen,
       tooltip: 'Add Task',
       child: new Icon(Icons.add),),
+    );
+  }
+  
+  void _pushAddToTodoScreen(){
+    Navigator.of(context).push(
+        new MaterialPageRoute(
+            builder: (context){
+          return new Scaffold(
+            appBar: new AppBar(
+              title: new Text('Add a new Task')
+            ),
+            body: new TextField(
+              autofocus: true,
+              onSubmitted: (val){
+                _addTodoItem(val);
+                Navigator.pop(context);//Close the add todo screen
+              },
+              decoration: new InputDecoration(
+                hintText: 'Enter something todo...',
+                contentPadding: const EdgeInsets.all(16.0)
+              ),
+            ),
+          );
+        }),
     );
   }
 }
